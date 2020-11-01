@@ -1,20 +1,22 @@
 {
-    "name": "pxt-easybit",
-    "description": "",
+    "name": "easybit",
+    "version": "1.0.0",
+    "description": "MakeCode extension for DIDABOT easy:bit board",
+    "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "radio": "*"
+        "core": "*"
     },
     "files": [
-        "main.blocks",
-        "main.ts",
-        "README.md"
+        "easybit.ts",
+        "ws2812b.asm",
+        "ws2812b.ts",
+        "neopixel.ts",
+        "_locales/zh/easybit-strings.json"
     ],
     "testFiles": [
-        "test.ts"
+        "tests.ts"
     ],
-    "supportedTargets": [
-        "microbit"
-    ],
-    "preferredEditor": "blocksprj"
+    "public": true,
+    "preferredEditor": "tsprj",
+    "installedVersion": "workspace:7c035382-0e98-4081-cc94-fd915880c822"
 }
