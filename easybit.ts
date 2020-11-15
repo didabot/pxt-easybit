@@ -41,9 +41,9 @@ namespace PCA9685_Drive {
         if (!initialized) {
             i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
             setFreq(50); //1s / 20ms
-            for (let idx = 0; idx < 16; idx++) {
-                setPwm(idx, 0, 0);
-            }
+          //  for (let idx = 0; idx < 16; idx++) {
+          //      setPwm(idx, 0, 0);
+          //  }
             initialized = true;
         }
     }
@@ -61,14 +61,16 @@ namespace PCA9685_Drive {
         i2cwrite(PCA9685_ADDRESS, MODE1, newmode); // go to sleep
         i2cwrite(PCA9685_ADDRESS, PRESCALE, prescale); // set the prescaler
         i2cwrite(PCA9685_ADDRESS, MODE1, oldmode);
-        basic.pause(1);
-        //control.waitMicros(5000);
+        //basic.pause(1);
+        control.waitMicros(5000);
         i2cwrite(PCA9685_ADDRESS, MODE1, oldmode | 0xa1);  //1010 0001
     }
 
     export function setPwm(channel: number, on: number, off: number): void {
         if (channel < 0 || channel > 15)
             return;
+
+         PCA9685_Drive.initPCA9685();
 
         let buf = pins.createBuffer(5);
         buf[0] = LED0_ON_L + 4 * channel;
@@ -148,16 +150,17 @@ namespace Easybit {
 
     /**
      * set servo angle
-     * @param degree -90~90 degree of servo; eg: -90, 0, 90
+     * @param degree 0~180 degree of servo; eg: 0, 30, 109
     */
     //% blockId=easybit_set_servo_angle block="set servo |%servoId| angle to |%degree| degree"
     //% weight=130
-    //% degree.min=-90 degree.max=90
-    export function SetServoAngle(servoId: Servo, degree: number): void {
-        PCA9685_Drive.initPCA9685();
+    //% degree.min=0 degree.max=180
+    export function SetServoAngle(servoId: Servo, degree: number = 0): void {
+        if (degree > 177)
+            degree = 177
         // 50hz: 20,000 us
-        let v_us = (degree * 1800 / 180 + 600); // 0.6 ~ 2.4
-        let value = v_us * 4096 / 20000;
+        let v_us = (degree * 1800.0 / 180.0 + 600.0); // 0.6 ~ 2.4
+        let value = v_us * 4096.0 / 20000.0;
         PCA9685_Drive.setPwm(servoId, 0, value);
     }
 

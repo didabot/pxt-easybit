@@ -1,6 +1,6 @@
 # Introduction
 
-The MoDou Robot package for BBC micro:bit extension is developed by DIDABOT co.ltd.
+The easybit package for BBC micro:bit extension is developed by DIDABOT co.ltd.
 
 The Modou Robot Kit is designed for students and geeks who can use it for creative activities.
 The robot has two wheels to move, a chargeable battery for power and many sensors to detect 
