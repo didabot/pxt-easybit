@@ -1,6 +1,6 @@
 {
     "name": "easybit",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "MakeCode extension for DIDABOT easy:bit board",
     "license": "MIT",
     "dependencies": {
