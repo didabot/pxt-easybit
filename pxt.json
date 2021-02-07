@@ -11,6 +11,15 @@
         "ws2812b.asm",
         "ws2812b.ts",
         "neopixel.ts",
+        "controls.ts",
+        "dht11.ts",
+        "cls381.ts",
+        "paj7260.ts",
+        "sensors.ts",
+        "tm1650.ts",
+        "display.ts",
+        "audio.ts",
+        "drives.ts",
         "_locales/zh/easybit-strings.json"
     ],
     "testFiles": [

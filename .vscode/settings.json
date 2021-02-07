@@ -11,7 +11,8 @@
     },
     "files.associations": {
         "*.blocks": "html",
-        "*.jres": "json"
+        "*.jres": "json",
+        "ios": "cpp"
     },
     "search.exclude": {
         "**/built": true,

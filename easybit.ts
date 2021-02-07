@@ -18,28 +18,9 @@ namespace PCA9685_Drive {
     const ALL_LED_OFF_L = 0xFC
     const ALL_LED_OFF_H = 0xFD
 
-    function i2cwrite(addr: number, reg: number, value: number) {
-        let buf = pins.createBuffer(2);
-        buf[0] = reg;
-        buf[1] = value;
-        pins.i2cWriteBuffer(addr, buf);
-    }
-
-    function i2cread(addr: number, reg: number) {
-        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
-        let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
-        return val;
-    }
-
-    function i2ccmd(addr: number, value: number) {
-        let buf = pins.createBuffer(1);
-        buf[0] = value;
-        pins.i2cWriteBuffer(addr, buf);
-    }
-
     export function initPCA9685(): void {
         if (!initialized) {
-            i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
+            Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
             setFreq(50); //1s / 20ms
           //  for (let idx = 0; idx < 16; idx++) {
           //      setPwm(idx, 0, 0);
@@ -56,14 +37,15 @@ namespace PCA9685_Drive {
         prescaleval = prescaleval * 25 / 24;  // 0.915
         prescaleval -= 1;
         let prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
-        let oldmode = i2cread(PCA9685_ADDRESS, MODE1);
+        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
+        let oldmode = Easybit.i2cread(PCA9685_ADDRESS, MODE1);
         let newmode = (oldmode & 0x7F) | 0x10;// sleep
-        i2cwrite(PCA9685_ADDRESS, MODE1, newmode); // go to sleep
-        i2cwrite(PCA9685_ADDRESS, PRESCALE, prescale); // set the prescaler
-        i2cwrite(PCA9685_ADDRESS, MODE1, oldmode);
+        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, newmode); // go to sleep
+        Easybit.i2cwrite(PCA9685_ADDRESS, PRESCALE, prescale); // set the prescaler
+        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode);
         //basic.pause(1);
         control.waitMicros(5000);
-        i2cwrite(PCA9685_ADDRESS, MODE1, oldmode | 0xa1);  //1010 0001
+        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode | 0xa1);  //1010 0001
     }
 
     export function setPwm(channel: number, on: number, off: number): void {
@@ -82,7 +64,7 @@ namespace PCA9685_Drive {
     }
 }
 
-//% color=#009ede icon="\uf0ee"
+//% color=#009ede icon="\uf2db"
 namespace Easybit {
     export enum Servo {
         //% block="S1"
@@ -148,11 +130,155 @@ namespace Easybit {
         Black = 0x000000
     }
 
+    export enum DigitalPort {
+        //% block=P0
+        P0,
+        //% block=P1
+        P1,
+        //% block=P2
+        P2,
+        //% block=P3       
+        P3,
+        //% block=P4
+        P4,
+        //% block=P10
+        P10
+    }
+
+    export enum AnalogPort {
+        //% block=P0
+        P0,
+        //% block=P1
+        P1,
+        //% block=P2
+        P2,
+        //% block=P3       
+        P3,
+        //% block=P4
+        P4,
+        //% block=P10
+        P10
+    }
+
+    export enum MultiPort {
+        //% block=IIC
+        IIC,
+        //% block=UART
+        UART
+    }
+
+    export const serialTxPin: SerialPin = SerialPin.P15;
+    export const serialRxPin: SerialPin = SerialPin.P14;
+
+    export function toDigitalPin(port: DigitalPort): DigitalPin {
+        let pin: DigitalPin;
+        switch (port) {
+            case DigitalPort.P0: pin = DigitalPin.P0; break;
+            case DigitalPort.P1: pin = DigitalPin.P1; break;
+            case DigitalPort.P2: pin = DigitalPin.P2; break;
+            case DigitalPort.P3: pin = DigitalPin.P3; break;
+            case DigitalPort.P4: pin = DigitalPin.P4; break;
+            case DigitalPort.P10: pin = DigitalPin.P10; break;
+        }
+
+        return pin;
+    }
+
+    export function digitalPortHold(port: DigitalPort) {
+        /*
+        switch (port) {
+            case DigitalPort.P3: 
+            case DigitalPort.P4: 
+            case DigitalPort.P10:
+                led.enable(false);
+            break;
+        }*/
+    }
+
+    export function digitalPortRelease(port: DigitalPort) {
+        /*
+        switch (port) {
+            case DigitalPort.P3: 
+            case DigitalPort.P4: 
+            case DigitalPort.P10:
+                led.enable(true);
+            break;
+        }*/
+    }
+
+    export function toAnalogPin(port: AnalogPort): AnalogPin {
+        let pin: AnalogPin;
+        switch (port) {
+            case AnalogPort.P0: pin = AnalogPin.P0; break;
+            case AnalogPort.P1: pin = AnalogPin.P1; break;
+            case AnalogPort.P2: pin = AnalogPin.P2; break;
+            case AnalogPort.P3: pin = AnalogPin.P3; break;
+            case AnalogPort.P4: pin = AnalogPin.P4; break;
+            case AnalogPort.P10: pin = AnalogPin.P10; break;
+        }
+
+        return pin;
+    }
+
+    export function analogPortHold(port: AnalogPort) {
+        switch (port) {
+            case AnalogPort.P3: 
+            case AnalogPort.P4: 
+            case AnalogPort.P10:
+                led.enable(false);
+            break;
+        }
+    }
+
+    export function analogPortRelease(port: AnalogPort) {
+        switch (port) {
+            case AnalogPort.P3: 
+            case AnalogPort.P4: 
+            case AnalogPort.P10:
+                led.enable(true);
+            break;
+        }
+    }
+
+    export function toEventSource(port: DigitalPort): EventBusSource {
+        let src: EventBusSource;
+        switch (port) {
+            case DigitalPort.P0: src = EventBusSource.MICROBIT_ID_IO_P0; break;
+            case DigitalPort.P1: src = EventBusSource.MICROBIT_ID_IO_P1; break;
+            case DigitalPort.P2: src = EventBusSource.MICROBIT_ID_IO_P2; break;
+            case DigitalPort.P3: src = EventBusSource.MICROBIT_ID_IO_P3; break;
+            case DigitalPort.P4: src = EventBusSource.MICROBIT_ID_IO_P4; break;
+            case DigitalPort.P10: src = EventBusSource.MICROBIT_ID_IO_P10; break;
+        }
+
+        return src;
+    }
+
+    export function i2cwrite(addr: number, reg: number, value: number) {
+        let buf = pins.createBuffer(2);
+        buf[0] = reg;
+        buf[1] = value;
+        pins.i2cWriteBuffer(addr, buf);
+    }
+
+    export function i2cread(addr: number, reg: number) {
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
+        let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
+        return val;
+    }
+
+    export function i2ccmd(addr: number, value: number) {
+        let buf = pins.createBuffer(1);
+        buf[0] = value;
+        pins.i2cWriteBuffer(addr, buf);
+    }
+
+
     /**
      * set servo angle
      * @param degree 0~180 degree of servo; eg: 0, 30, 109
     */
-    //% blockId=easybit_set_servo_angle block="set servo |%servoId| angle to |%degree| degree"
+    //% blockId=Easybit_set_servo_angle block="set servo |%servoId| angle to |%degree| degree"
     //% weight=130
     //% degree.min=0 degree.max=180
     export function SetServoAngle(servoId: Servo, degree: number = 0): void {
@@ -167,7 +293,7 @@ namespace Easybit {
     /**
 	 * start motor
 	*/
-    //% blockId=easybit_start_motor block="start motor |%w| with speed at |%speed|" blockGap=8
+    //% blockId=Easybit_start_motor block="start motor |%w| with speed at |%speed|" blockGap=8
     //% weight=120
     //% speed.min=-100 speed.max=100
     export function StartMotor(m: Motor, speed: number): void {
@@ -199,7 +325,7 @@ namespace Easybit {
     /**
 	 * stop motor
 	*/
-    //% blockId=easybit_stop_motor block="stop |%m|" blockGap=8
+    //% blockId=Easybit_stop_motor block="stop |%m|" blockGap=8
     //% weight=110
     export function StopMotor(m: Motor) {
         StartMotor(m, 0);
@@ -208,7 +334,7 @@ namespace Easybit {
     /**
 	 * stop all motors
 	*/
-    //% blockId=easybit_stop_all_motors block="stop all motors" blockGap=8
+    //% blockId=Easybit_stop_all_motors block="stop all motors" blockGap=8
     //% weight=100
     export function StopAllMotors() {
         StartMotor(Motor.M1, 0);
@@ -218,11 +344,12 @@ namespace Easybit {
     }
 
     let neoStrip: neopixel.Strip = neopixel.create(DigitalPin.P8, 4, NeoPixelMode.RGB);
+    neoStrip.setBrightness(75);
 
     /**
      * set led color to a predefined color. 
     */
-    //% blockId="easybit_set_led_color" block="set |%led| color to |%color|"
+    //% blockId="Easybit_set_led_color" block="set |%led| color to |%color|"
     //% weight=90
     export function setLedColor(led: LED, color: Colors): void {
         neoStrip.setPixelColor(led, color);
@@ -232,7 +359,7 @@ namespace Easybit {
     /**
      * set all leds color to a predefined color. 
     */
-    //% blockId="easybit_set_all_leds_color" block="set all leds color to |%color|"
+    //% blockId="Easybit_set_all_leds_color" block="set all leds color to |%color|"
     //% weight=80
     export function setAllLedColor(color: Colors): void {
         neoStrip.setPixelColor(LED.LED1, color);
@@ -245,7 +372,7 @@ namespace Easybit {
     /**
      * set led color to a given rgb value. 
     */
-    //% blockId="easybit_set_led_rgb" block="set |%led| color red |%red| green |%green| blue |%blue|"
+    //% blockId="Easybit_set_led_rgb" block="set |%led| color red |%red| green |%green| blue |%blue|"
     //% weight=70
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
@@ -258,7 +385,7 @@ namespace Easybit {
     /**
      * set all leds color to a given rgb value. 
     */
-    //% blockId="easybit_set_all_leds_rgb" block="set all leds color red |%red| green |%green| blue |%blue|"
+    //% blockId="Easybit_set_all_leds_rgb" block="set all leds color red |%red| green |%green| blue |%blue|"
     //% weight=60
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
@@ -279,11 +406,22 @@ namespace Easybit {
     /**
      * turn off all LEDs. 
     */
-    //% blockId="easybit_clear_all_leds" block="clear all leds"
+    //% blockId="Easybit_clear_all_leds" block="clear all leds"
     //% weight=50
     export function clearAllLeds(): void {
         neoStrip.clear();
         neoStrip.show();
     }
 
+    /**
+     * set brightneww. 
+     * @param brightness brightness level 0-100
+    */
+    //% blockId="Easybit_set_led_brightness" block="clear all leds"
+    //% weight=50
+    //% level.min=0 level.max=100
+    export function setLedsBrightness(level : number): void {
+        neoStrip.setBrightness(pins.map(level, 0, 100, 0, 255));
+        neoStrip.show();
+    }
 }
