@@ -31,10 +31,20 @@ namespace Sensors {
     //% blockId=easybit_get_soil_moisture block="Soil mosture from |%port|"
     //% weight=128
     export function soilMoisture(port: Easybit.AnalogPort): number {
+        let voltage = 0;
+        let soilmoisture = 0;
         let pin = Easybit.toAnalogPin(port);
-        let level = 100 - pins.map(pins.analogReadPin(pin), 395, 810, 0, 100);
-        Easybit.analogPortRelease(port);
-        return Math.round(level);
+
+        voltage = pins.map(
+            pins.analogReadPin(pin),
+            0,
+            1023,
+            0,
+            100
+        );
+ 
+        soilmoisture = voltage;
+        return Math.round(soilmoisture);
     }
 
     /**
@@ -44,10 +54,20 @@ namespace Sensors {
     //% blockId=easybit_get_light_intensity block="Light intensity from |%port|"
     //% weight=127
     export function lightIntensity(port: Easybit.AnalogPort): number {
+        let voltage = 0;
+        let lightintensity = 0;
         let pin = Easybit.toAnalogPin(port);
-        let level = pins.analogReadPin(pin);
-        Easybit.analogPortRelease(port);
-        return Math.round(level);
+
+        voltage = pins.map(
+            pins.analogReadPin(pin),
+            0,
+            1023,
+            0,
+            100
+        );
+ 
+        lightintensity = voltage;
+        return Math.round(lightintensity);
     }
 
     /**
