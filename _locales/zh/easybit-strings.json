@@ -79,7 +79,7 @@
     "Sensors.vibrationHappened|block": "端口|%port|传感器检测到震动",
     "Sensors.onLimitSensorPressed|block": "当端口|%port|的限位开关触发时",
     "Sensors.isLimitSensorPressed|block": "端口|%port|的限位开关触发",
-    "Sensors.onPIRSensorStateChanged|block": "当端口|%port|热释电传感器发生事件",
+    "Sensors.onHumanBodyDetected|block": "当端口|%port|检测到人体靠近",
     "Sensors.isHumanBodyDetected|block": "端口|%port|有人靠近",
     "Sensors.onGesture|block": "当识别到|%ges|的手势时",
     "{id:category}Display": "显示模块",

@@ -314,32 +314,22 @@ namespace Sensors {
         return (state == 1) ? true : false;
     }
 
-    export enum Event {
-        //% block="Closing"
-        Closing = EventBusValue.MICROBIT_PIN_EVT_RISE,
-        //% block="Leaved"
-        Leaved = EventBusValue.MICROBIT_PIN_EVT_FALL
-    }
-
     /**
-     * Connect a pir sensor to Easybit and do something when state changed.
+     * Connect a pir sensor to Easybit and do something when humanbody detected.
      * @param port Easybit port to be connected to
      * @param body code to run when event is raised
      */
-    //% blockId=Easybit_pir_sensor_state_changed block="On pir sensor connected to |%port| state changed, state |%evt|"
+    //% blockId=Easybit_human_body_nearby block="On pir sensor connected to |%port| detected human"
     //% weight=113
-    export function onPIRSensorStateChanged(port: Easybit.DigitalPort, body: (message: String) => void) {
-        led.enable(false);
+    export function onHumanBodyDetected(port: Easybit.DigitalPort, body: Action) {
         let pin = Easybit.toDigitalPin(port);
         pins.setEvents(pin, PinEventType.Edge);
-        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_EVT_ANY, () => { 
-            let evt = control.eventValue();
-            if (evt == EventBusValue.MICROBIT_PIN_EVT_FALL ) {
-                body("leaving");
-            } else if (evt == EventBusValue.MICROBIT_PIN_EVT_RISE) {
-                body("closing")
-            }
-        });
+
+        let func = () => {
+            body();
+        } 
+
+        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
     }
 
     /**
