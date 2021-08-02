@@ -42,6 +42,59 @@ namespace Display {
     }
 
     /**
+     * Set light brightness.
+     * @param port easybit port connect to
+     * @param brightness brightness level to set
+     */
+    //% blockId=easybit_set_light_brightness block="Set light from |%port| brightness |%brightness|"
+    //% weight=129
+    //% brightness.min=0 brightness.max=100
+    export function setLightBrightness(port: Easybit.AnalogPort, brightness: number) {
+        Easybit.analogPortHold(port);
+        let pin = Easybit.toAnalogPin(port);
+        pins.analogWritePin(pin, pins.map(brightness, 0, 100, 0, 1023));
+        Easybit.analogPortRelease(port);
+    }
+
+    let neoStrip:neopixel.Strip  = null;
+
+    /**
+     * set rgb led color to a predefined color. 
+     * @param port easybit port connect to
+     * @param color color
+    */
+    //% blockId="Easybit_set_rgb_led_color" block="set rgb led from |%port| color to |%color|"
+    //% weight=129
+    export function setRGBLedColor(port: Easybit.DigitalPort, color: Easybit.Colors): void {
+        let pin = Easybit.toDigitalPin(port);
+        if (neoStrip == null) {
+            neoStrip = neopixel.create(pin, 1, NeoPixelMode.RGB);
+            neoStrip.setBrightness(75);
+        }
+        neoStrip.setPixelColor(0, color);
+        neoStrip.show();
+    }
+
+    /**
+     * set rgb led brightness. 
+     * @param port easybit port connect to
+     * @param color color
+    */
+    //% blockId="Easybit_set_rgb_led_brightness" block="set rgb led from |%port| brightness |%level|"
+    //% weight=129
+    //% level.min=0 level.max=100
+    export function setRGBLedsBrightness(port: Easybit.DigitalPort, level: number): void {
+        let pin = Easybit.toDigitalPin(port);
+        if (neoStrip == null) {
+            neoStrip = neopixel.create(pin, 1, NeoPixelMode.RGB);
+            neoStrip.setBrightness(75);
+        }
+
+        neoStrip.setBrightness(pins.map(level, 0, 100, 0, 255));
+        neoStrip.show();
+    }
+
+    /**
      * turn digital tube display on
      */
     //% blockId=easybit_turn_digital_tube_on block="turn digital tube display on"

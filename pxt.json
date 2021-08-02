@@ -20,6 +20,7 @@
         "display.ts",
         "audio.ts",
         "drives.ts",
+        "oled.ts",
         "_locales/zh/easybit-strings.json"
     ],
     "testFiles": [

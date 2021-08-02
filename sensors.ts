@@ -83,6 +83,18 @@ namespace Sensors {
     }
 
     /**
+     * Get the gas entensity.
+     * @param port easybit port to be connected to
+     */
+    //% blockId=easybit_get_gas_intensity block="Gas intensity from |%port|"
+    //% weight=126
+    export function gasIntensity(port: Easybit.AnalogPort): number {
+        let pin = Easybit.toAnalogPin(port);
+        let level = pins.analogReadPin(pin);
+        return Math.round(level);
+    }
+
+    /**
      * Get the environment temperature.
      * @param port easybit port to be connected to
      */
@@ -227,7 +239,7 @@ namespace Sensors {
             body();
         } 
 
-        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
+        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_FALL, func);
    }
 
     /**
@@ -239,7 +251,7 @@ namespace Sensors {
     export function magnetDetected(port: Easybit.DigitalPort): boolean {
         let pin = Easybit.toDigitalPin(port);
         let state = pins.digitalReadPin(pin);           
-        return (state == 1) ? true : false;
+        return (state == 0) ? true : false;
     }
 
     /**
