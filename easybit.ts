@@ -22,9 +22,6 @@ namespace PCA9685_Drive {
         if (!initialized) {
             Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
             setFreq(50); //1s / 20ms
-          //  for (let idx = 0; idx < 16; idx++) {
-          //      setPwm(idx, 0, 0);
-          //  }
             initialized = true;
         }
     }
@@ -34,16 +31,15 @@ namespace PCA9685_Drive {
         let prescaleval = 25000000;
         prescaleval /= 4096;
         prescaleval /= freq;
-        prescaleval = prescaleval * 25 / 24;  // 0.915
+        //prescaleval = prescaleval * 25 / 24;  // 0.915
         prescaleval -= 1;
         let prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
-        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
+        //Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
         let oldmode = Easybit.i2cread(PCA9685_ADDRESS, MODE1);
         let newmode = (oldmode & 0x7F) | 0x10;// sleep
         Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, newmode); // go to sleep
         Easybit.i2cwrite(PCA9685_ADDRESS, PRESCALE, prescale); // set the prescaler
         Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode);
-        //basic.pause(1);
         control.waitMicros(5000);
         Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode | 0xa1);  //1010 0001
     }
@@ -53,7 +49,6 @@ namespace PCA9685_Drive {
             return;
 
          PCA9685_Drive.initPCA9685();
-
         let buf = pins.createBuffer(5);
         buf[0] = LED0_ON_L + 4 * channel;
         buf[1] = on & 0xff;
@@ -281,12 +276,11 @@ namespace Easybit {
     //% blockId=Easybit_set_servo_angle block="set servo |%servoId| angle to |%degree| degree"
     //% weight=130
     //% degree.min=0 degree.max=180
+    //% degree.shadow="protractorPicker"
     export function SetServoAngle(servoId: Servo, degree: number = 0): void {
-        if (degree > 177)
-            degree = 177
         // 50hz: 20,000 us
-        let v_us = (degree * 1800.0 / 180.0 + 600.0); // 0.6 ~ 2.4
-        let value = v_us * 4096.0 / 20000.0;
+        let v_us = (degree * 1800 / 180 + 600); // 0.6 ~ 2.4
+        let value = v_us * 4096 / 20000;
         PCA9685_Drive.setPwm(servoId, 0, value);
     }
 
@@ -414,8 +408,8 @@ namespace Easybit {
     }
 
     /**
-     * set brightneww. 
-     * @param brightness brightness level 0-100
+     * set brightness. 
+     * @param level brightness level 0-100
     */
     //% blockId="Easybit_set_led_brightness" block="clear all leds"
     //% weight=50

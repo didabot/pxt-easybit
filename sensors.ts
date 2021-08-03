@@ -87,7 +87,7 @@ namespace Sensors {
      * @param port easybit port to be connected to
      */
     //% blockId=easybit_get_gas_intensity block="Gas intensity from |%port|"
-    //% weight=126
+    //% weight=125
     export function gasIntensity(port: Easybit.AnalogPort): number {
         let pin = Easybit.toAnalogPin(port);
         let level = pins.analogReadPin(pin);
@@ -95,27 +95,14 @@ namespace Sensors {
     }
 
     /**
-     * Get the environment temperature.
+     * get environment temperature and humidity value
      * @param port easybit port to be connected to
-     */
-    //% blockId=easybit_get_temperature block="temperature from |%port|"
-    //% weight=125
-    export function temperature(port: Easybit.DigitalPort): number {
-        let pin = Easybit.toDigitalPin(port);
-        let t = dht11.temperature(pin);
-        return t;
-    }
-
-    /**
-     * Get the environment humidity.
-     * @param port easybit port to be connected to
-     */
-    //% blockId=easybit_get_humidity block="humidity from |%port|"
+     * @param src value type */
     //% weight=124
-    export function humidity(port: Easybit.DigitalPort): number {
+    //% blockId="easybit_get_enviroment_value" block="environment %src| from port %port"
+    export function environmentValue(port: Easybit.DigitalPort, src: dht11.DataSource): number {
         let pin = Easybit.toDigitalPin(port);
-        let h = dht11.humidity(pin);
-        return h;
+        return dht11.read(src, pin);
     }
 
     export enum Unit {
