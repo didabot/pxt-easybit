@@ -273,7 +273,7 @@ namespace Easybit {
      * set servo angle
      * @param degree 0~180 degree of servo; eg: 0, 30, 109
     */
-    //% blockId=Easybit_set_servo_angle block="set servo |%servoId| angle to |%degree| degree"
+    //% blockId=Easybit_set_servo_angle block="set servo |%servoId| angle(0~180) |%degree| degree"
     //% weight=130
     //% degree.min=0 degree.max=180
     //% degree.shadow="protractorPicker"
@@ -287,7 +287,7 @@ namespace Easybit {
     /**
 	 * start motor
 	*/
-    //% blockId=Easybit_start_motor block="start motor |%w| with speed at |%speed|" blockGap=8
+    //% blockId=Easybit_start_motor block="start motor |%w| speed(-100~+100) |%speed|" blockGap=8
     //% weight=120
     //% speed.min=-100 speed.max=100
     export function StartMotor(m: Motor, speed: number): void {
@@ -319,7 +319,7 @@ namespace Easybit {
     /**
 	 * stop motor
 	*/
-    //% blockId=Easybit_stop_motor block="stop |%m|" blockGap=8
+    //% blockId=Easybit_stop_motor block="stop motor |%m|" blockGap=8
     //% weight=110
     export function StopMotor(m: Motor) {
         StartMotor(m, 0);
@@ -343,7 +343,7 @@ namespace Easybit {
     /**
      * set led color to a predefined color. 
     */
-    //% blockId="Easybit_set_led_color" block="set |%led| color to |%color|"
+    //% blockId="Easybit_set_led_color" block="set |%led| color |%color|"
     //% weight=90
     export function setLedColor(led: LED, color: Colors): void {
         neoStrip.setPixelColor(led, color);
@@ -353,7 +353,7 @@ namespace Easybit {
     /**
      * set all leds color to a predefined color. 
     */
-    //% blockId="Easybit_set_all_leds_color" block="set all leds color to |%color|"
+    //% blockId="Easybit_set_all_leds_color" block="set all led colors |%color|"
     //% weight=80
     export function setAllLedColor(color: Colors): void {
         neoStrip.setPixelColor(LED.LED1, color);
@@ -411,7 +411,7 @@ namespace Easybit {
      * set brightness. 
      * @param level brightness level 0-100
     */
-    //% blockId="Easybit_set_led_brightness" block="clear all leds"
+    //% blockId="Easybit_set_led_brightness" block="set led brightness(0~100)|%level|"
     //% weight=50
     //% level.min=0 level.max=100
     export function setLedsBrightness(level : number): void {

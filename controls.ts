@@ -5,7 +5,7 @@ namespace Controls {
      * @param port Easybit port to be connected to
      * @param body code to run when event is raised
      */
-    //% blockId=Easybit_push_button_pressed block="On push button connected to |%port| pressed"
+    //% blockId=Easybit_push_button_pressed block="on push button pressed at port |%port| "
     //% weight=128
     export function onPushButtonPressed(port: Easybit.DigitalPort, body: Action) {
         let pin = Easybit.toDigitalPin(port);
@@ -21,7 +21,7 @@ namespace Controls {
      * Get the push button state (pressed or not) .
      * @param port Easybit port to be connected to
      */
-    //% blockId=Easybit_is_push_button_pressed block="Push button connected to |%port| pressed"
+    //% blockId=Easybit_is_push_button_pressed block="push button pressed at port |%port| "
     //% weight=130
     export function isPushButtonPressed(port: Easybit.DigitalPort): boolean {
         let pin = Easybit.toDigitalPin(port);
@@ -34,7 +34,7 @@ namespace Controls {
      * @param port Easybit port to be connected to
      * @param body code to run when event is raised
      */
-    //% blockId=Easybit_touch_button_touched block="On touch button connected to |%port| touched"
+    //% blockId=Easybit_touch_button_touched block="on touch button touched at port |%port|"
     //% weight=127
     export function onTouchButtonTouched(port: Easybit.DigitalPort, body: Action) {
         let pin = Easybit.toDigitalPin(port);
@@ -52,7 +52,7 @@ namespace Controls {
      * Get the touch button state (touched or not).
      * @param port Easybit port to be connected to.
      */
-    //% blockId=Easybit_is_touch_button_touched block="Touch button connected to |%port| touched"
+    //% blockId=Easybit_is_touch_button_touched block="touch button touched at port |%port|"
     //% weight=129
     export function isTouchButtonTouched(port: Easybit.DigitalPort): boolean {
         let pin = Easybit.toDigitalPin(port);

@@ -5,7 +5,7 @@ namespace Drive {
      * @param port easybit port connect to
      * @param speed fan speed expect to set
      */
-    //% blockId=easybit_set_fan_speed block="Set fan from |%port| speed |%speed|"
+    //% blockId=easybit_set_fan_speed block="set fan speed |%speed| at port |%port| "
     //% weight=130
     //% speed.min=0 speed.max=100
     export function setFanSpeed(port: Easybit.AnalogPort, speed: number) {
