@@ -120,7 +120,7 @@ namespace Audio {
     //% weight=127
     export function playNumber(num: number) {
         init();
-        sendCommand(Command.SET_SONG_NUM, num >> 8, num & 0xFF);
+        sendCommand(Command.SET_FOULDER_SONG, num >> 8, num & 0xFF);
     }
 
     /**
