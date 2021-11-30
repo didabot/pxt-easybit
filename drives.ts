@@ -1,17 +1,14 @@
-//% color=#009ede icon="\uf085"
+//% color=#8000C9 icon="\uf085"
 namespace Drive {
     /**
      * set fan speed.
-     * @param port easybit port connect to
+     * @param pin microbit analog pin
      * @param speed fan speed expect to set
      */
-    //% blockId=easybit_set_fan_speed block="set fan speed |%speed| at port |%port| "
+    //% blockId=drive_set_fan_speed block="set fan speed |%speed| at port |%pin| "
     //% weight=130
     //% speed.min=0 speed.max=100
-    export function setFanSpeed(port: Easybit.AnalogPort, speed: number) {
-        Easybit.analogPortHold(port);
-        let pin = Easybit.toAnalogPin(port);
+    export function setFanSpeed(pin: AnalogPin, speed: number) {
         pins.analogWritePin(pin, pins.map(speed, 0, 100, 0, 1023));
-        Easybit.analogPortRelease(port);
     }
 }

@@ -1,16 +1,17 @@
-//% color=#009ede icon="\uf2c9"
+//% color=#DD401B icon="\uf2c9"
+//% groups='["Analog","Digital","IIC","UART"]'
 namespace Sensors {
     /**
      * Get the sound level.
-     * @param port easybit port to be connected to
+     * @param pin microbit analog pin
      */
-    //% blockId=easybit_get_sound_level block="sound level(0~100) at |%port|"
+    //% blockId=sensors_get_sound_level block="sound level(0~100) at |%pin|"
     //% weight=130
-    export function soundLevel(port: Easybit.AnalogPort): number {
+    //% group="Analog"
+    export function soundLevel(pin: AnalogPin): number {
         let voltage = 0;
         let level = 0;
-        let pin = Easybit.toAnalogPin(port);
-
+        
         voltage = pins.map(
             pins.analogReadPin(pin),
             0,
@@ -25,12 +26,12 @@ namespace Sensors {
 
     /**
      * Get the water level.
-     * @param port easybit port to be connected to
+     * @param pin microbit analog pin
      */
-    //% blockId=easybit_get_water_level block="water level(0~100) at port |%port|"
+    //% blockId=sensors_get_water_level block="water level(0~100) at port |%pin|"
     //% weight=129
-    export function waterLevel(port: Easybit.AnalogPort): number {
-        let pin = Easybit.toAnalogPin(port);
+    //% group="Analog"
+    export function waterLevel(pin: AnalogPin): number {
         let level = pins.map(
             pins.analogReadPin(pin),
             0,
@@ -42,14 +43,14 @@ namespace Sensors {
 
     /**
      * Get the soil moisture.
-     * @param port easybit port to be connected to
+     * @param pin microbit analog pin
      */
-    //% blockId=easybit_get_soil_moisture block="soil mosture(0~100) at port |%port|"
+    //% blockId=sensors_get_soil_moisture block="soil mosture(0~100) at port |%pin|"
     //% weight=128
-    export function soilMoisture(port: Easybit.AnalogPort): number {
+    //% group="Analog"
+    export function soilMoisture(pin: AnalogPin): number {
         let voltage = 0;
         let soilmoisture = 0;
-        let pin = Easybit.toAnalogPin(port);
 
         voltage = pins.map(
             pins.analogReadPin(pin),
@@ -65,14 +66,14 @@ namespace Sensors {
 
     /**
      * Get the light intensity.
-     * @param port easybit port to be connected to
+     * @param pin microbit analog pin
      */
-    //% blockId=easybit_get_light_intensity block="light intensity(0~100) at port |%port|"
+    //% blockId=sensors_get_light_intensity block="light intensity(0~100) at port |%pin|"
     //% weight=127
-    export function lightIntensity(port: Easybit.AnalogPort): number {
+    //% group="Analog"
+    export function lightIntensity(pin: AnalogPin): number {
         let voltage = 0;
         let lightintensity = 0;
-        let pin = Easybit.toAnalogPin(port);
 
         voltage = pins.map(
             pins.analogReadPin(pin),
@@ -87,30 +88,13 @@ namespace Sensors {
     }
 
     /**
-     * Get the rotation angle.
-     * @param port easybit port to be connected to
-     */
-    //% blockId=easybit_get_rotation_angle block="rotation angle(0~280) at port |%port|"
-    //% weight=126
-    export function rotationAngle(port: Easybit.AnalogPort): number {
-        let pin = Easybit.toAnalogPin(port);
-        let level = pins.map(
-            pins.analogReadPin(pin),
-            0,
-            1023,
-            0,
-            280);
-        return Math.round(level);
-    }
-
-    /**
      * Get the gas intensity.
-     * @param port easybit port to be connected to
+     * @param pin microbit analog pin
      */
-    //% blockId=easybit_get_gas_intensity block="gas intensity(0~100) at port |%port|"
+    //% blockId=sensors_get_gas_intensity block="gas intensity(0~100) at port |%port|"
     //% weight=125
-    export function gasIntensity(port: Easybit.AnalogPort): number {
-        let pin = Easybit.toAnalogPin(port);
+    //% group="Analog"
+    export function gasIntensity(pin: AnalogPin): number {
         let level = pins.map(
             pins.analogReadPin(pin),
             0,
@@ -122,12 +106,12 @@ namespace Sensors {
 
     /**
      * get environment temperature and humidity value
-     * @param port easybit port to be connected to
+     * @param pin microbit didgital pin
      * @param src value type */
     //% weight=124
-    //% blockId="easybit_get_enviroment_value" block="environment %src| at port |%port|"
-    export function environmentValue(port: Easybit.DigitalPort, src: dht11.DataSource): number {
-        let pin = Easybit.toDigitalPin(port);
+    //% blockId="sensors_get_enviroment_value" block="environment %src| at port |%pin|"
+    //% group="Digital"
+    export function environmentValue(pin: DigitalPin, src: dht11.DataSource): number {
         return dht11.read(src, pin);
     }
 
@@ -145,8 +129,9 @@ namespace Sensors {
      * @param port easybit port connect to
      * @param unit unit expect to display
      */
-    //% blockId=easybit_get_sonar_distance block="sonar distance in unit %unit at port %port"
+    //% blockId=sensors_get_sonar_distance block="sonar distance in unit %unit at port %port"
     //% weight=123
+    //% group="IIC"
     export function sonar(port: Easybit.MultiPort, unit: Unit): number {
         // determine the pin
         let trig: DigitalPin;
@@ -195,8 +180,9 @@ namespace Sensors {
      * Get the color data from color sensor.
      * @param color data source to read from
      */
-    //% blockId=easybit_read_color_data block="|%color| value at port iic"
+    //% blockId=sensors_read_color_data block="|%color| value at port iic"
     //% weight=122
+    //% group="IIC"
     export function color(color: Color): number {
         let data: number;
         switch (color) {
@@ -207,152 +193,162 @@ namespace Sensors {
         return data;
     }
 
+    export enum TrackingState {
+        //% block="◌" 
+        State_0 = 0,
+        //% block="●" 
+        State_1 = 1
+    }
+
     /**
-     * Connect a line tracker to easybit and do something when line detected.
-     * @param port easybit port to be connected to
+     * Connect a tracking sensor to easybit and do something when line detected.
+     * @param pin microbit Digital pin
      * @param body code to run when event is raised
      */
-    //% blockId=easybit_line_detected block="on black line detected at port |%port|"
+    //% blockId=sensors_tracking_state_changed block="on tracking sensor state |%state| at port |%pin|"
     //% weight=117
-    export function onLineDetected(port: Easybit.DigitalPort, body: Action) {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function onTrackingStateChanged(pin: DigitalPin, state: TrackingState, body: Action, ) {
         pins.setEvents(pin, PinEventType.Edge);
 
         let func = () => {
             body();
-        } 
-
-        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
+        }
+        
+        if (state == TrackingState.State_0)            
+            control.onEvent(Easybit.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_FALL, func);
+        else             
+            control.onEvent(Easybit.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
     }
 
     /**
-     * Get the line tracker state.
-     * @param port easybit port to be connected to
+     * Get the tracking state.
+     * @param pin microbit Digital pin
      */
-    //% blockId=easybit_is_line_detected block="black line detected at port |%port| "
+    //% blockId=sensors_tracking_state block="tracking state is |%state| at port |%pin| "
     //% weight=121
-    export function lineDetected(port: Easybit.DigitalPort): boolean {
-        let pin = Easybit.toDigitalPin(port);
-        let state = pins.digitalReadPin(pin);           
-        return (state == 1) ? true : false;
+    //% group="Digital"
+    export function trackingStateIs(pin: DigitalPin, state: TrackingState): boolean {
+        let pinValue = pins.digitalReadPin(pin);
+        return (state == pinValue) ? true : false;
     }
 
     /**
      * Connect a hall sensor to easybit and do something when magnet detected.
-     * @param port easybit port to be connected to
+     * @param pin microbit Digital pin
      * @param body code to run when event is raised
      */
-    //% blockId=easybit_magnet_detected block="on magnet detected at port |%port|"
+    //% blockId=sensors_magnet_detected block="on magnet detected at port |%pin|"
     //% weight=116
-    export function onMagnetDetected(port: Easybit.DigitalPort, body: Action) {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function onMagnetDetected(pin: DigitalPin, body: Action) {
         pins.setEvents(pin, PinEventType.Edge);
 
         let func = () => {
             body();
         } 
 
-        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_FALL, func);
+        control.onEvent(Easybit.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_FALL, func);
    }
 
     /**
      * Get the hall sensor state.
-     * @param port easybit port to be connected to
+     * @param pin microbit Digital pin
      */
-    //% blockId=easybit_is_magnet_detected block="magnet detected at port |%port|"
+    //% blockId=sensors_is_magnet_detected block="magnet detected at port |%pin|"
     //% weight=120
-    export function magnetDetected(port: Easybit.DigitalPort): boolean {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function magnetDetected(pin: DigitalPin): boolean {
         let state = pins.digitalReadPin(pin);           
         return (state == 0) ? true : false;
     }
 
     /**
      * Connect a vibration sensor to easybit and do something when vibration detected.
-     * @param port easybit port to be connected to
+     * @param pin microbit Digital pin
      * @param body code to run when event is raised
      */
-    //% blockId=easybit_on_vibration_happened block="on vibration at port |%port|"
+    //% blockId=sensors_on_vibration_happened block="on vibration at port |%pin|"
     //% weight=115
-    export function onVibration(port: Easybit.DigitalPort, body: Action) {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function onVibration(pin: DigitalPin, body: Action) {
         pins.setEvents(pin, PinEventType.Edge);
 
         let func = () => {
             body();
         } 
 
-        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_FALL, func);
+        control.onEvent(Easybit.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_FALL, func);
     }
 
     /**
      * Get the vibration state.
-     * @param port easybit port to be connected to
+     * @param pin emicrobit Digital pin
      */
-    //% blockId=easybit_is_vibration_happened block="vibration happened at port |%port| "
+    //% blockId=sensors_is_vibration_happened block="vibration happened at port |%pin| "
     //% weight=119
-    export function vibrationHappened(port: Easybit.DigitalPort): boolean {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function vibrationHappened(pin: DigitalPin): boolean {
         let state = pins.digitalReadPin(pin);           
         return (state == 1) ? true : false;
     }
 
     /**
      * Connect a limit sensor to Easybit and do something when pushed down.
-     * @param port Easybit port to be connected to
+     * @param pin microbit Digital pin
      * @param body code to run when event is raised
      */
-    //% blockId=Easybit_limit_sensor_pressed block="on limit position reached at port |%port| "
+    //% blockId=sensors_limit_sensor_pressed block="on limit position reached at port |%pin| "
     //% weight=114
-    export function onLimitSensorPressed(port: Easybit.DigitalPort, body: Action) {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function onLimitSensorPressed(pin: DigitalPin, body: Action) {
         pins.setEvents(pin, PinEventType.Edge);
 
         let func = () => {
             body();
         } 
 
-        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
+        control.onEvent(Easybit.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
     }
 
     /**
      * Get the limit sensor state (pressed or not).
-     * @param port Easybit port to be connected to
+     * @param pin microbit Digital pin
      */
-    //% blockId=Easybit_is_limit_sensor_pressed block="limit position reached at port |%port|"
+    //% blockId=sensors_is_limit_sensor_pressed block="limit position reached at port |%pin|"
     //% weight=118
-    export function isLimitSensorPressed(port: Easybit.DigitalPort): boolean {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function isLimitSensorPressed(pin: DigitalPin): boolean {
         let state = pins.digitalReadPin(pin);  
         return (state == 1) ? true : false;
     }
 
     /**
      * Connect a pir sensor to Easybit and do something when humanbody detected.
-     * @param port Easybit port to be connected to
+     * @param pin microbit Digital pin
      * @param body code to run when event is raised
      */
-    //% blockId=Easybit_human_body_nearby block="on humanbody moved at port |%port|"
+    //% blockId=sensors_human_body_nearby block="on humanbody moved at port |%pin|"
     //% weight=113
-    export function onHumanBodyDetected(port: Easybit.DigitalPort, body: Action) {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function onHumanBodyDetected(pin: DigitalPin, body: Action) {
         pins.setEvents(pin, PinEventType.Edge);
 
         let func = () => {
             body();
         } 
 
-        control.onEvent(Easybit.toEventSource(port), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
+        control.onEvent(Easybit.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_RISE, func);
     }
 
     /**
      * Get the pir sensor state.
-     * @param port Easybit port to be connected to
+     * @param pin microbit Digital pin
      */
-    //% blockId=Easybit_is_humon_body_detected block="humanbody moved at port |%port|"
+    //% blockId=sensors_is_humon_body_detected block="humanbody moved at port |%pin|"
     //% weight=117
-    export function isHumanBodyDetected(port: Easybit.DigitalPort): boolean {
-        let pin = Easybit.toDigitalPin(port);
+    //% group="Digital"
+    export function isHumanBodyDetected(pin: DigitalPin): boolean {
         let state = pins.digitalReadPin(pin);  
         return (state == 1) ? true : false;
     }
@@ -386,8 +382,9 @@ namespace Sensors {
     /**
      * Get the current gesture.
      */
-    //% blockId=Easybit_get_gesture block="gesture type at port IIC"
+    //% blockId=sensors_get_gesture block="gesture type at port IIC"
     //% weight=114
+    //% group="IIC"
     export function gesture(): Gesture {
         let data = 0, result = 0;
         data = paj7260.read();
@@ -408,8 +405,9 @@ namespace Sensors {
      * Connect a gesture sensor to Easybit and do something when gesture changed.
      * @param body code to run when event is raised
      */
-    //% blockId=Easybit_gesture_changed block="on gesture |%ges|"
+    //% blockId=sensors_gesture_changed block="on gesture |%ges|"
     //% weight=113
+    //% group="IIC"
     export function onGesture(ges: Gesture, body: Action) {
         control.onEvent(GESTURE_EVENT_ID, ges, body);
         control.inBackground(() => {

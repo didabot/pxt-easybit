@@ -1,4 +1,5 @@
-//% color=#009ede icon="\uf028"
+//% color=#149596 icon="\uf028"
+//% groups='["MP3 Player"]'
 namespace Audio {
     enum Command {
         NEXT_SONG = 0x01,
@@ -85,8 +86,9 @@ namespace Audio {
     /**
      * start play song.
      */
-    //% blockId=easybit_play_song block="Play"
+    //% blockId=mp3_play_song block="Play"
     //% weight=130
+    //% group="MP3 Player"
     export function play() {
         init();
         sendCommand(Command.PLAY, 0, 0);
@@ -95,8 +97,9 @@ namespace Audio {
     /**
      * stop play song.
      */
-    //% blockId=easybit_stop_play_song block="stop play"
+    //% blockId=mp3_stop_play_song block="stop play"
     //% weight=129
+    //% group="MP3 Player"
     export function stop() {
         init();
         sendCommand(Command.STOP_PLAY, 0, 0);
@@ -105,8 +108,9 @@ namespace Audio {
     /**
      * pause play.
      */
-    //% blockId=easybit_pause_play_song block="pause play"
+    //% blockId=mp3_pause_play_song block="pause play"
     //% weight=128
+    //% group="MP3 Player"
     export function pause() {
         init();
         sendCommand(Command.PAUSE, 0, 0);
@@ -116,8 +120,9 @@ namespace Audio {
      * start play song number.
      * @param num song number
      */
-    //% blockId=easybit_play_song_number block="play song |%num|"
+    //% blockId=mp3_play_song_number block="play song |%num|"
     //% weight=127
+    //% group="MP3 Player"
     export function playNumber(num: number) {
         init();
         sendCommand(Command.SET_FOULDER_SONG, num >> 8, num & 0xFF);
@@ -126,8 +131,9 @@ namespace Audio {
     /**
      * play next song.
      */
-    //% blockId=easybit_play_next_song block="play next song"
+    //% blockId=mp3_play_next_song block="play next song"
     //% weight=126
+    //% group="MP3 Player"
     export function next() {
         init();
         sendCommand(Command.NEXT_SONG, 0, 0);
@@ -136,8 +142,9 @@ namespace Audio {
     /**
      * play previous song.
      */
-    //% blockId=easybit_play_previous_song block="play previous song"
+    //% blockId=mp3_play_previous_song block="play previous song"
     //% weight=125
+    //% group="MP3 Player"
     export function previous() {
         init();
         sendCommand(Command.PREVIOUS_SONG, 0, 0);
@@ -146,8 +153,9 @@ namespace Audio {
     /**
      * volume up.
      */
-    //% blockId=easybit_volume_up block="volume up"
-    //% weight=124
+    //% blockId=mp3_volume_up block="volume up"
+    //% weight=124    
+    //% group="MP3 Player"
     export function volumeUp() {
         init();
         sendCommand(Command.VOL_UP, 0, 0);
@@ -156,8 +164,9 @@ namespace Audio {
     /**
      * volume down.
      */
-    //% blockId=easybit_volume_down block="volume down"
+    //% blockId=mp3_volume_down block="volume down"
     //% weight=123
+    //% group="MP3 Player"
     export function volumeDown() {
         init();
         sendCommand(Command.VOL_DOWN, 0, 0);
@@ -166,9 +175,10 @@ namespace Audio {
     /**
      * set volume.
      */
-    //% blockId=easybit_set_volume block="set volume |%vol|"
+    //% blockId=mp3_set_volume block="set volume(0~30) |%vol|"
     //% weight=122
     //% vol.min=0 vol.max=30
+    //% group="MP3 Player"
     export function setVolume(vol : number) {
         init();
         sendCommand(Command.SET_VOL, vol >> 8, vol & 0xFF);

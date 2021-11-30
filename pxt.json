@@ -1,26 +1,27 @@
 {
     "name": "easybit",
     "version": "1.0.8",
-    "description": "MakeCode extension for DIDABOT easy:bit board",
+    "description": "MakeCode extension for didabot education platform",
     "license": "MIT",
     "dependencies": {
         "core": "*"
     },
     "files": [
+        "controller.ts",
         "easybit.ts",
-        "ws2812b.asm",
-        "ws2812b.ts",
-        "neopixel.ts",
         "controls.ts",
-        "dht11.ts",
-        "cls381.ts",
-        "paj7260.ts",
         "sensors.ts",
-        "tm1650.ts",
+        "bsp/tm1650.ts",
         "display.ts",
         "audio.ts",
         "drives.ts",
-        "oled.ts",
+        "bsp/pca9685.ts",
+        "bsp/ws2812b.asm",
+        "bsp/ws2812b.ts",
+        "bsp/neopixel.ts",
+        "bsp/dht11.ts",
+        "bsp/cls381.ts",
+        "bsp/paj7260.ts",
         "_locales/zh/easybit-strings.json"
     ],
     "testFiles": [
