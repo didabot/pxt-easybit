@@ -155,6 +155,7 @@
   "{id:category}Sensors": "Sensors",
   "{id:category}Tm1650": "Tm1650",
   "{id:category}Ws2812b": "Ws2812b",
+  "{id:category}Communication": "Communication",
   "{id:group}Analog": "Analog",
   "{id:group}Digital": "Digital",
   "{id:group}IIC": "IIC",
