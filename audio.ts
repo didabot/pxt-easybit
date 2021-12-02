@@ -58,7 +58,7 @@ namespace Audio {
 
     function init() {
         if (!initDone) {
-            serial.redirect(Easybit.serialTxPin, Easybit.serialRxPin, 9600);
+            serial.redirect(Controller.serialTxPin, Controller.serialRxPin, 9600);
             basic.pause(100);
             initDone = true;
         }
@@ -84,9 +84,9 @@ namespace Audio {
     }
 
     /**
-     * start play song.
+     * start play audio.
      */
-    //% blockId=mp3_play_song block="Play"
+    //% blockId=mp3_start_play block="MP3 start play"
     //% weight=130
     //% group="MP3 Player"
     export function play() {
@@ -95,9 +95,9 @@ namespace Audio {
     }
     
     /**
-     * stop play song.
+     * stop play audio.
      */
-    //% blockId=mp3_stop_play_song block="stop play"
+    //% blockId=mp3_stop_play block="MP3 stop play"
     //% weight=129
     //% group="MP3 Player"
     export function stop() {
@@ -108,7 +108,7 @@ namespace Audio {
     /**
      * pause play.
      */
-    //% blockId=mp3_pause_play_song block="pause play"
+    //% blockId=mp3_pause_play_ block="MP3 pause play"
     //% weight=128
     //% group="MP3 Player"
     export function pause() {
@@ -117,10 +117,10 @@ namespace Audio {
     }
 
     /**
-     * start play song number.
+     * play audio with number.
      * @param num song number
      */
-    //% blockId=mp3_play_song_number block="play song |%num|"
+    //% blockId=mp3_play_audio_with_number block="MP3 play audio |%num|"
     //% weight=127
     //% group="MP3 Player"
     export function playNumber(num: number) {
@@ -129,9 +129,9 @@ namespace Audio {
     }
 
     /**
-     * play next song.
+     * play next audio.
      */
-    //% blockId=mp3_play_next_song block="play next song"
+    //% blockId=mp3_play_next_audio block="MP3 play next audio"
     //% weight=126
     //% group="MP3 Player"
     export function next() {
@@ -142,7 +142,7 @@ namespace Audio {
     /**
      * play previous song.
      */
-    //% blockId=mp3_play_previous_song block="play previous song"
+    //% blockId=mp3_play_previous_audio block="MP3 play previous audio"
     //% weight=125
     //% group="MP3 Player"
     export function previous() {
@@ -151,9 +151,9 @@ namespace Audio {
     }
 
     /**
-     * volume up.
+     * set volume up.
      */
-    //% blockId=mp3_volume_up block="volume up"
+    //% blockId=mp3_volume_up block="MP3 volume up"
     //% weight=124    
     //% group="MP3 Player"
     export function volumeUp() {
@@ -162,9 +162,9 @@ namespace Audio {
     }
 
     /**
-     * volume down.
+     * set volume down.
      */
-    //% blockId=mp3_volume_down block="volume down"
+    //% blockId=mp3_volume_down block="MP3 volume down"
     //% weight=123
     //% group="MP3 Player"
     export function volumeDown() {
@@ -173,9 +173,9 @@ namespace Audio {
     }
 
     /**
-     * set volume.
+     * set volume level.
      */
-    //% blockId=mp3_set_volume block="set volume(0~30) |%vol|"
+    //% blockId=mp3_set_volume_level block="MP3 set volume level |%vol|"
     //% weight=122
     //% vol.min=0 vol.max=30
     //% group="MP3 Player"

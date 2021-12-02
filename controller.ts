@@ -32,20 +32,185 @@ namespace Controller {
         ON = 1
     }
 
-    /**
-     * config microbit led screen to enable/disable pins used by led screen.
-     * @param state on/off
-    */
-    //% blockId=controller_config_led_screen block="set microbit led screen |%state|"
-    //% weight=130
-    //% state.shadow="toggleOnOff"
-    export function SetLedScreen(state: State = State.ON): void {
-        if (state == State.ON)
-            led.enable(true)
-        else
-            led.enable(false)
+    export enum AnalogInputPort {
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P10
     }
 
+    export enum AnalogOutPutPort {
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P12,
+        P13,
+        P14,
+        P15,
+        P16
+    }
+
+    export enum DigitalPort {
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P12,
+        P13,
+        P14,
+        P15,
+        P16
+    }
+
+    export enum SmartPort {
+        IIC,
+        UART
+    }
+
+    function ledScreenEnableDigitalPin(pin: DigitalPin): void {
+        switch (pin) {
+            case DigitalPin.P3:
+            case DigitalPin.P4:
+            case DigitalPin.P6:
+            case DigitalPin.P7:
+            case DigitalPin.P9:
+            case DigitalPin.P10: led.enable(false); break;
+        }
+    }
+
+    function ledScreenEnableAnalogPin(pin: AnalogPin): void {
+        switch (pin) {
+            case AnalogPin.P3:
+            case AnalogPin.P4:
+            case AnalogPin.P6:
+            case AnalogPin.P7:
+            case AnalogPin.P9:
+            case AnalogPin.P10: led.enable(false); break;
+        }
+    }
+
+    export function toAnalogInputPin(ai: AnalogInputPort): AnalogPin {
+        let pin: AnalogPin;
+        switch (ai) {
+            case AnalogInputPort.P0: pin = AnalogPin.P0; break;
+            case AnalogInputPort.P1: pin = AnalogPin.P1; break;
+            case AnalogInputPort.P2: pin = AnalogPin.P2; break;
+            case AnalogInputPort.P3: pin = AnalogPin.P3; break;
+            case AnalogInputPort.P4: pin = AnalogPin.P4; break;
+            case AnalogInputPort.P10: pin = AnalogPin.P10; break;
+        }
+
+        ledScreenEnableAnalogPin(pin);
+        return pin;
+    }
+
+    export function toAnalogOutputPin(ao: AnalogOutPutPort): AnalogPin {
+        let pin: AnalogPin;
+        switch (ao) {
+            case AnalogOutPutPort.P0: pin = AnalogPin.P0; break;
+            case AnalogOutPutPort.P1: pin = AnalogPin.P1; break;
+            case AnalogOutPutPort.P2: pin = AnalogPin.P2; break;
+            case AnalogOutPutPort.P3: pin = AnalogPin.P3; break;
+            case AnalogOutPutPort.P4: pin = AnalogPin.P4; break;
+            case AnalogOutPutPort.P10: pin = AnalogPin.P10; break;
+            case AnalogOutPutPort.P6: pin = AnalogPin.P6; break;
+            case AnalogOutPutPort.P7: pin = AnalogPin.P7; break;
+            case AnalogOutPutPort.P8: pin = AnalogPin.P8; break;
+            case AnalogOutPutPort.P9: pin = AnalogPin.P9; break;
+            case AnalogOutPutPort.P12: pin = AnalogPin.P12; break;
+            case AnalogOutPutPort.P13: pin = AnalogPin.P13; break;
+            case AnalogOutPutPort.P14: pin = AnalogPin.P14; break;
+            case AnalogOutPutPort.P15: pin = AnalogPin.P15; break;
+            case AnalogOutPutPort.P16: pin = AnalogPin.P16; break;
+        }
+        ledScreenEnableAnalogPin(pin);
+        return pin;
+    }
+
+    export function toDigitalPin(dio: DigitalPort): DigitalPin {
+        let pin: DigitalPin;
+        switch (dio) {
+            case DigitalPort.P0: pin = DigitalPin.P0; break;
+            case DigitalPort.P1: pin = DigitalPin.P1; break;
+            case DigitalPort.P2: pin = DigitalPin.P2; break;
+            case DigitalPort.P3: pin = DigitalPin.P3; break;
+            case DigitalPort.P4: pin = DigitalPin.P4; break;
+            case DigitalPort.P6: pin = DigitalPin.P6; break;
+            case DigitalPort.P7: pin = DigitalPin.P7; break;
+            case DigitalPort.P8: pin = DigitalPin.P8; break;
+            case DigitalPort.P9: pin = DigitalPin.P9; break;
+            case DigitalPort.P10: pin = DigitalPin.P10; break;
+            case DigitalPort.P12: pin = DigitalPin.P12; break;
+            case DigitalPort.P13: pin = DigitalPin.P13; break;
+            case DigitalPort.P14: pin = DigitalPin.P14; break;
+            case DigitalPort.P15: pin = DigitalPin.P15; break;
+            case DigitalPort.P16: pin = DigitalPin.P16; break;
+        }
+
+        ledScreenEnableDigitalPin(pin);
+        return pin;
+    }
+
+    export function toEventSource(pin: DigitalPin): EventBusSource {
+        let src: EventBusSource;
+        switch (pin) {
+            case DigitalPin.P0: src = EventBusSource.MICROBIT_ID_IO_P0; break;
+            case DigitalPin.P1: src = EventBusSource.MICROBIT_ID_IO_P1; break;
+            case DigitalPin.P2: src = EventBusSource.MICROBIT_ID_IO_P2; break;
+            case DigitalPin.P3: src = EventBusSource.MICROBIT_ID_IO_P3; break;
+            case DigitalPin.P4: src = EventBusSource.MICROBIT_ID_IO_P4; break;
+            case DigitalPin.P6: src = EventBusSource.MICROBIT_ID_IO_P6; break;
+            case DigitalPin.P7: src = EventBusSource.MICROBIT_ID_IO_P7; break;
+            case DigitalPin.P8: src = EventBusSource.MICROBIT_ID_IO_P8; break;
+            case DigitalPin.P9: src = EventBusSource.MICROBIT_ID_IO_P9; break;
+            case DigitalPin.P10: src = EventBusSource.MICROBIT_ID_IO_P10; break;
+            case DigitalPin.P12: src = EventBusSource.MICROBIT_ID_IO_P12; break;
+            case DigitalPin.P13: src = EventBusSource.MICROBIT_ID_IO_P13; break;
+            case DigitalPin.P14: src = EventBusSource.MICROBIT_ID_IO_P14; break;
+            case DigitalPin.P15: src = EventBusSource.MICROBIT_ID_IO_P15; break;
+            case DigitalPin.P16: src = EventBusSource.MICROBIT_ID_IO_P16; break;
+        }
+
+        return src;
+    }
+
+    export const serialTxPin: SerialPin = SerialPin.P15;
+    export const serialRxPin: SerialPin = SerialPin.P14;
+
+    export function i2cwrite(addr: number, reg: number, value: number) {
+        let buf = pins.createBuffer(2);
+        buf[0] = reg;
+        buf[1] = value;
+        pins.i2cWriteBuffer(addr, buf);
+    }
+
+    export function i2cread(addr: number, reg: number) {
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
+        let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
+        return val;
+    }
+
+    export function i2ccmd(addr: number, value: number) {
+        let buf = pins.createBuffer(1);
+        buf[0] = value;
+        pins.i2cWriteBuffer(addr, buf);
+    }
+    
     ///////////////////////////////////////Octopus Controller/////////////////////////////////////////////////////////////////
     let octopusNeoStrip: neopixel.Strip = null;
     export enum OctopusServo {
@@ -90,13 +255,15 @@ namespace Controller {
     }
 
     /**
-     * set servo angle
-     * @param degree 0~180 degree of servo; eg: 0, 30, 109
+     * octopus board set servo target angle.
+     * @param servoId servo number, eg: S1, S2
+     * @param degree target angle of servo, eg: 0, 30, 109.
     */
-    //% blockId=octopus_set_servo_angle block="set servo |%servoId| angle |%degree|"
+    //% blockId=octopus_set_servo_angle block="octopus: servo |%servoId| set angle |%degree|"
     //% weight=130
     //% degree.min=0 degree.max=180
     //% degree.shadow="protractorPicker"
+    //% servoId.fieldEditor="gridpicker" servoId.fieldOptions.columns=4
     //% subcategory=Octopus group="Servo"
     export function OctopusSetServoAngle(servoId: OctopusServo, degree: number = 0): void {
         // 50hz: 20,000 us
@@ -106,12 +273,14 @@ namespace Controller {
     }
 
     /**
-	 * run motor
+	 * octopus board run motor with speed.
+     * @param m motor number, eg: M1, M2
+     * @param speed target speed
 	*/
-    //% blockId=octopus_run_motor block="run motor |%w| speed |%speed|"
+    //% blockId=octopus_run_motor block="octopus: run motor |%m| at speed |%speed|"
     //% weight=120
     //% speed.min=-255 speed.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    //% m.fieldEditor="gridpicker" m.fieldOptions.columns=2
     //% subcategory=Octopus group="Motor"
     export function OctopusRunMotor(m: OctopusMotor, speed: number): void {
         PCA9685_Drive.initPCA9685();
@@ -143,12 +312,15 @@ namespace Controller {
     }
 
     /**
-	 * run motor for a duration
-	*/
-    //% blockId=octopus_run_motor_duration block="run motor |%w| speed |%speed| duration |%duration|ms"
+	 * octopus board run motor for a duration in milliseconds
+     * @param m motor number, eg: M1, M2
+     * @param speed target speed
+     * @param duration running duration in milliseconds
+    */
+    //% blockId=octopus_run_motor_duration block="octopus: run motor |%m| speed |%speed| duration |%duration| ms"
     //% weight=120
     //% speed.min=-255 speed.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    //% m.fieldEditor="gridpicker" m.fieldOptions.columns=2
     //% subcategory=Octopus group="Motor"
     export function OctopusRunMotorDuration(m: OctopusMotor, speed: number, duration: number): void {
         OctopusRunMotor(m, speed)
@@ -157,20 +329,21 @@ namespace Controller {
     }
 
     /**
-	 * stop motor
-	*/
-    //% blockId=octopus_stop_motor block="stop motor |%m|"
+	 * octopus board stop motor.
+     * @param m motor number, eg: M1, M2
+    */
+    //% blockId=octopus_stop_motor block="octous: stop motor |%m|"
     //% weight=110
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    //% m.fieldEditor="gridpicker" m.fieldOptions.columns=2
     //% subcategory=Octopus group="Motor"
     export function OctopusStopMotor(m: OctopusMotor) {
         OctopusRunMotor(m, 0);
     }
 
     /**
-	 * stop all motors
+	 * octopus board stop all motors
 	*/
-    //% blockId=Octopus_stop_all_motors block="stop all motors"
+    //% blockId=Octopus_stop_all_motors block="octopus: stop all motors"
     //% weight=100
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     //% subcategory=Octopus group="Motor"
@@ -195,9 +368,12 @@ namespace Controller {
     }
 
     /**
-     * set led color to a predefined color. 
+     * set led stardard color mounting on octopus board. 
+     * @param led RGB LED number, eg: LED1, LED3
+     * @param color color
     */
-    //% blockId="octopus_set_led_color" block="set |%led| color |%color|"
+    //% blockId="octopus_set_led_color" block="octopus: set |%led| color |%color|"
+    //% led.fieldEditor="gridpicker" led.fieldOptions.columns=2
     //% weight=90
     //% subcategory=Octopus group="RGB"
     export function OctopusSetLedColor(led: OctopusLED, color: Colors): void {
@@ -207,9 +383,16 @@ namespace Controller {
     }
 
     /**
-     * set led color to a given rgb value. 
+     * octopus set RGB led color with raw rgb value. 
+     * @param led RGB LED number, eg: LED1, LED3
+     * @param red red value of RGB
+     * @param green green value of RGB
+     * @param blue blue value of RGB
+    * 
+    * 
     */
-    //% blockId="octopus_set_led_value" block="set %led rgb value |red %red|green %green|blue %blue"
+    //% blockId="octopus_set_led_value" block="octopus: set %led rgb value |R %red|G %green|B %blue"
+    //% led.fieldEditor="gridpicker" led.fieldOptions.columns=2
     //% weight=70
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
@@ -222,9 +405,9 @@ namespace Controller {
     }
 
     /**
-     * clear all LEDs. 
+     * octopus board clear all LED. 
     */
-    //% blockId="octopus_clear_all_leds" block="clear all leds"
+    //% blockId="octopus_clear_all_leds" block="octopus: clear all leds"
     //% weight=50
     //% subcategory=Octopus group="RGB"
     export function OctopusClearAllLeds(): void {
@@ -234,10 +417,10 @@ namespace Controller {
     }
 
     /**
-     * set brightness. 
+     * octopus board set RGB LED brightness level. 
      * @param level brightness level 0-100
     */
-    //% blockId="octopus_set_led_brightness" block="set led brightness|%level|"
+    //% blockId="octopus_set_led_brightness" block="octopus: set led brightness |%level|"
     //% weight=50
     //% level.min=0 level.max=255
     //% subcategory=Octopus group="RGB"
@@ -268,10 +451,12 @@ namespace Controller {
     }
  
     /**
-     * set servo angle
-     * @param degree 0~180 degree of servo; eg: 0, 30, 109
+     * turtle board set servo target angle
+     * @param servoId servo number, eg: S1, S2
+     * @param degree target angle of servo, eg: 0, 30, 109.
     */
-    //% blockId=turtle_set_servo_angle block="set servo |%servoId| angle |%degree|"
+    //% blockId=turtle_set_servo_angle block="turtle: servo |%servoId| set angle |%degree|"
+    //% servoId.fieldEditor="gridpicker" servoId.fieldOptions.columns=2
     //% weight=130
     //% degree.min=0 degree.max=180
     //% degree.shadow="protractorPicker"
@@ -296,9 +481,12 @@ namespace Controller {
     }
 
     /**
-     * set led color to a predefined color. 
+     * set led stardard color mounting on turtle board. 
+     * @param led RGB LED number, eg: LED1, LED3
+     * @param color color
     */
-    //% blockId="turtle_set_led_color" block="set |%led| color |%color|"
+    //% blockId="turtle_set_led_color" block="turtle: set |%led| color |%color|"
+    //% led.fieldEditor="gridpicker" led.fieldOptions.columns=2
     //% weight=90
     //% subcategory=Turtle group="RGB"
     export function TurtleSetLedColor(led: TurtleLED, color: Colors): void {
@@ -308,9 +496,14 @@ namespace Controller {
     }
 
     /**
-     * set led color to a given rgb value. 
+     * turtle board set RGB led color with raw rgb value. 
+     * @param led RGB LED number, eg: LED1, LED3
+     * @param red red value of RGB
+     * @param green green value of RGB
+     * @param blue blue value of RGB
     */
-    //% blockId="turtle_set_led_value" block="set %led rgb value |red %red|green %green|blue %blue"
+    //% blockId="turtle_set_led_value" block="turtle: set %led rgb value |R %red|G %green|B %blue"
+    //% led.fieldEditor="gridpicker" led.fieldOptions.columns=2
     //% weight=70
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
@@ -323,9 +516,9 @@ namespace Controller {
     }
 
     /**
-     * clear all LEDs. 
+     * clear all RGB leds mounting on turtle board. 
     */
-    //% blockId="turtle_clear_all_leds" block="clear all leds"
+    //% blockId="turtle_clear_all_leds" block="turtle: clear all leds"
     //% weight=50
     //% subcategory=Turtle group="RGB"
     export function TurtleClearAllLeds(): void {
@@ -335,10 +528,10 @@ namespace Controller {
     }
 
     /**
-     * set brightness. 
+     * set RGB led brightness mounting on turtle board. 
      * @param level brightness level 0-100
     */
-    //% blockId="octopus_set_led_brightness" block="set led brightness|%level|"
+    //% blockId="octopus_set_led_brightness" block="turtle: set led brightness|%level|"
     //% weight=50
     //% level.min=0 level.max=255
     //% subcategory=Turtle group="RGB"

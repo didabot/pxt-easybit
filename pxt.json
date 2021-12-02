@@ -8,13 +8,12 @@
     },
     "files": [
         "controller.ts",
-        "easybit.ts",
         "controls.ts",
         "sensors.ts",
-        "bsp/tm1650.ts",
-        "display.ts",
         "audio.ts",
+        "display.ts",
         "drives.ts",
+        "bsp/tm1650.ts",
         "bsp/pca9685.ts",
         "bsp/ws2812b.asm",
         "bsp/ws2812b.ts",
@@ -22,7 +21,10 @@
         "bsp/dht11.ts",
         "bsp/cls381.ts",
         "bsp/paj7260.ts",
-        "_locales/zh/easybit-strings.json"
+        "_locales/zh-CN/easybit-jsdoc-strings.json",
+        "_locales/zh-CN/easybit-strings.json",
+        "_locales/en/easybit-jsdoc-strings.json",
+        "_locales/en/easybit-strings.json"
     ],
     "testFiles": [
         "tests.ts"

@@ -34,9 +34,9 @@ namespace paj7260 {
     let initDone = false;
     function selectBank(b: number) {
         if (b == 0)
-            Easybit.i2cwrite(IIC_ADDR, 0xEF, 0);
+            Controller.i2cwrite(IIC_ADDR, 0xEF, 0);
         else if (b == 1)
-            Easybit.i2cwrite(IIC_ADDR, 0xEF, 1)
+            Controller.i2cwrite(IIC_ADDR, 0xEF, 1)
     }
 
     function init() {
@@ -44,10 +44,10 @@ namespace paj7260 {
             return;
         
         selectBank(0);
-        let temp = Easybit.i2cread(IIC_ADDR, 0);
+        let temp = Controller.i2cread(IIC_ADDR, 0);
         if (temp == 0x20) {
             for (let i = 0; i < 438; i += 2) {
-                Easybit.i2cwrite(IIC_ADDR, initTable[i], initTable[i + 1]);
+                Controller.i2cwrite(IIC_ADDR, initTable[i], initTable[i + 1]);
             }
         }
         
@@ -58,7 +58,7 @@ namespace paj7260 {
 
     export function read(): number {
         init();
-        return Easybit.i2cread(IIC_ADDR, 0x43);
+        return Controller.i2cread(IIC_ADDR, 0x43);
     }
 
 }

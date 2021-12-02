@@ -19,7 +19,7 @@ namespace PCA9685_Drive {
 
     export function initPCA9685(): void {
         if (!initialized) {
-            Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
+            Controller.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
             setFreq(50); //1s / 20ms
             initialized = true;
         }
@@ -33,14 +33,14 @@ namespace PCA9685_Drive {
         //prescaleval = prescaleval * 25 / 24;  // 0.915
         prescaleval -= 1;
         let prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
-        //Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
-        let oldmode = Easybit.i2cread(PCA9685_ADDRESS, MODE1);
+        //Controller.i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
+        let oldmode = Controller.i2cread(PCA9685_ADDRESS, MODE1);
         let newmode = (oldmode & 0x7F) | 0x10;// sleep
-        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, newmode); // go to sleep
-        Easybit.i2cwrite(PCA9685_ADDRESS, PRESCALE, prescale); // set the prescaler
-        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode);
+        Controller.i2cwrite(PCA9685_ADDRESS, MODE1, newmode); // go to sleep
+        Controller.i2cwrite(PCA9685_ADDRESS, PRESCALE, prescale); // set the prescaler
+        Controller.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode);
         control.waitMicros(5000);
-        Easybit.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode | 0xa1);  //1010 0001
+        Controller.i2cwrite(PCA9685_ADDRESS, MODE1, oldmode | 0xa1);  //1010 0001
     }
 
     export function setPwm(channel: number, on: number, off: number): void {

@@ -32,12 +32,12 @@ namespace cls381 {
     function init() {
         if (initialised)
             return;
-        Easybit.i2cwrite(IIC_ADDR, registers.MAIN_CTRL, 0x04);
+        Controller.i2cwrite(IIC_ADDR, registers.MAIN_CTRL, 0x04);
         control.waitMicros(10000);
-        Easybit.i2cwrite(IIC_ADDR, registers.ALS_CS_MEAS_RATE, 0x41);
-        Easybit.i2cwrite(IIC_ADDR, registers.ALS_CS_GAIN, 0x00);
-        Easybit.i2cwrite(IIC_ADDR, registers.INT_CFG, 0x00);
-        Easybit.i2cwrite(IIC_ADDR, registers.MAIN_CTRL, 0x06); 
+        Controller.i2cwrite(IIC_ADDR, registers.ALS_CS_MEAS_RATE, 0x41);
+        Controller.i2cwrite(IIC_ADDR, registers.ALS_CS_GAIN, 0x00);
+        Controller.i2cwrite(IIC_ADDR, registers.INT_CFG, 0x00);
+        Controller.i2cwrite(IIC_ADDR, registers.MAIN_CTRL, 0x06); 
         control.waitMicros(10000);
         initialised = true;
     } 
@@ -46,9 +46,9 @@ namespace cls381 {
         let data0, data1, data2, value : number;
 
         init();
-        data0 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_IR_0);
-        data1 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_IR_1);
-        data2 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_IR_2);
+        data0 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_IR_0);
+        data1 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_IR_1);
+        data2 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_IR_2);
         value = (data2 << 16) | (data1 << 8) | data0;
         return value;
     }
@@ -57,9 +57,9 @@ namespace cls381 {
         let data0, data1, data2, value : number;
 
         init();
-        data0 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_RED_0);
-        data1 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_RED_1);
-        data2 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_RED_2);
+        data0 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_RED_0);
+        data1 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_RED_1);
+        data2 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_RED_2);
         value = (data2 << 16) | (data1 << 8) | data0;
         return value;
     }
@@ -68,9 +68,9 @@ namespace cls381 {
         let data0, data1, data2, value : number;
 
         init();
-        data0 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_GREEN_0);
-        data1 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_GREEN_1);
-        data2 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_GREEN_2);
+        data0 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_GREEN_0);
+        data1 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_GREEN_1);
+        data2 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_GREEN_2);
         value = (data2 << 16) | (data1 << 8) | data0;
         return value;
     }
@@ -79,9 +79,9 @@ namespace cls381 {
         let data0, data1, data2, value : number;
 
         init();
-        data0 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_BLUE_0);
-        data1 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_BLUE_1);
-        data2 = Easybit.i2cread(IIC_ADDR, registers.CS_DATA_BLUE_2);
+        data0 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_BLUE_0);
+        data1 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_BLUE_1);
+        data2 = Controller.i2cread(IIC_ADDR, registers.CS_DATA_BLUE_2);
 
         value = (data2 << 16) | (data1 << 8) | data0;
         return value;

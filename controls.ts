@@ -2,71 +2,71 @@
 //% groups='["Push Button","Touch Button","Potentiometer"]'
 namespace Controls {
     /**
-     * Connect a push button to Easybit and do something when pushed down and release.
-     * @param pin microbit digital pin
+     * Do something when a push button is pushed down and released again.
+     * @param port microbit digital pin
      * @param body code to run when event is raised
      */
-    //% blockId=controls_push_button_pressed block="on push button pressed at port |%pin| "
+    //% blockId=controls_push_button_pressed block="on push button |%port| pressed"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=130
     //% group="Push Button"
-    export function onPushButtonPressed(pin: DigitalPin, body: Action) {
+    export function onPushButtonPressed(port: Controller.DigitalPort, body: Action) {
+        let pin: DigitalPin = Controller.toDigitalPin(port);
         pins.setEvents(pin, PinEventType.Edge);
-        let func = () => {
-            body();
-        }
-
-        control.onEvent(pin, EventBusValue.MICROBIT_PIN_EVT_FALL, func);
+        control.onEvent(Controller.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_FALL, body);
     }
 
     /**
-     * Get the push button state (pressed or not) .
-     * @param pin microbit digital pin
+     * Check wether the push button is pressed or not.
+     * @param port microbit digital port
      */
-    //% blockId=controls_is_push_button_pressed block="push button pressed at port |%pin| "
+    //% blockId=controls_is_push_button_pressed block="push button |%pin| pressed"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=129
     //% group="Push Button"
-    export function isPushButtonPressed(pin: DigitalPin): boolean {
-        let state = pins.digitalReadPin(pin);   
-        return (state == 0) ? true : false;
+    export function isPushButtonPressed(port: Controller.DigitalPort): boolean {
+        let pin: DigitalPin = Controller.toDigitalPin(port);
+        return (pins.digitalReadPin(pin) == 0) ? true : false;
     }
 
     /**
-     * Connect a touch button to Easybit and do something when touch.
-     * @param pin microbit digital pin
+     * Do something when a touch button is touched down and released again.
+     * @param port microbit digital pin
      * @param body code to run when event is raised
      */
-    //% blockId=controls_touch_button_touched block="on touch button touched at port |%pin|"
+    //% blockId=controls_touch_button_touched block="on touch button |%port| pressed"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=128
     //% group="Touch Button"
-    export function onTouchButtonTouched(pin: DigitalPin, body: Action) {
+    export function onTouchButtonTouched(port: Controller.DigitalPort, body: Action) {
+        let pin: DigitalPin = Controller.toDigitalPin(port);
         pins.setEvents(pin, PinEventType.Edge)
-        let func = () => {
-            body();
-        }
-
-        control.onEvent(pin, EventBusValue.MICROBIT_PIN_EVT_RISE, func);
+        control.onEvent(Controller.toEventSource(pin), EventBusValue.MICROBIT_PIN_EVT_FALL, body);
     }
 
     /**
-     * Get the touch button state (touched or not).
+     * Check wether the push button is touched or not.
      * @param pin microbit digital pin
      */
-    //% blockId=controls_is_touch_button_touched block="touch button touched at port |%pin|"
+    //% blockId=controls_is_touch_button_touched block="touch button |%port| pressed"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=127
     //% group="Touch Button"
-    export function isTouchButtonTouched(pin: DigitalPin): boolean {
-        let state = pins.digitalReadPin(pin);        
-        return (state == 0) ? true : false;
+    export function isTouchButtonTouched(port: Controller.DigitalPort): boolean {
+        let pin: DigitalPin = Controller.toDigitalPin(port);
+        return (pins.digitalReadPin(pin) == 0) ? true : false;
     }
 
     /**
-     * Get the rotation angle.
-     * @param pin microbit analog pin
+     * Get the rotation sensor position.
+     * @param port microbit analog port
      */
-    //% blockId=controls_get_rotation_angle block="rotation angle(0~280) at port |%pin|"
+    //% blockId=controls_get_rotation_angle block="rotation sensor |%port| angle(0~280)"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=2
     //% weight=126
     //% group="Potentiometer"
-    export function rotationAngle(pin: AnalogPin): number {
+    export function rotationAngle(port: Controller.AnalogInputPort): number {
+        let pin: AnalogPin = Controller.toAnalogInputPin(port);
         let level = pins.map(
             pins.analogReadPin(pin),
             0,
@@ -75,5 +75,4 @@ namespace Controls {
             280);
         return Math.round(level);
     }
-
 }

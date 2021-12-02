@@ -1,5 +1,4 @@
 
-
 //% color=#159F03 icon="\uf26c"
 //% groups='["Indicator","RGB LED","White LED","Segment Display","OLED Display"]'
 namespace Display {
@@ -12,14 +11,16 @@ namespace Display {
     }
 
     /**
-     * Set indicator state (on or off).
-     * @param pin microbit digital pin
+     * Set indicator led state (on or off).
+     * @param port microbit digital port
      * @param state led state
      */
-    //% blockId=display_set_indicator_state block="set indicator |%state| at pin |%port|"
+    //% blockId=display_set_indicator_state block="indicator led |%port| set state |%state|"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=130
     //% group="Indicator"
-    export function setIndicatorState(pin: DigitalPin, state: State) {
+    export function setIndicatorState(port: Controller.DigitalPort, state: State) {
+        let pin: DigitalPin = Controller.toDigitalPin(port);
         if (state == State.ON)
             pins.digitalWritePin(pin, 1);
         else
@@ -27,29 +28,33 @@ namespace Display {
     }
 
     /**
-     * Set indicator brightness.
-     * @param pin microbit analog pin
+     * Set indicator led brightness.
+     * @param port microbit analog output port
      * @param brightness brightness level to set
      */
-    //% blockId=display_set_indicator_brightness block="set indicator brightness(0~100) |%brightness| at port |%pin| "
+    //% blockId=display_set_indicator_brightness block="indicator led |%port| set brightness |%brightness|"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=129
     //% brightness.min=0 brightness.max=100    
     //% group="Indicator"
-    export function setIndicatorBrightness(pin: AnalogPin, brightness: number) {
+    export function setIndicatorBrightness(port: Controller.AnalogOutPutPort, brightness: number) {
+        let pin: AnalogPin = Controller.toAnalogOutputPin(port);
         pins.analogWritePin(pin, pins.map(brightness, 0, 100, 0, 1023));
     }
 
     ///////////////////////////////////////White LED/////////////////////////////////////////////////////////////////
     /**
      * Set white led brightness.
-     * @param pin microbit analog pin
+     * @param port microbit analog output port
      * @param brightness brightness level to set
      */
-    //% blockId=display_set_white_led_brightness block="set white led brightness(0~100) |%brightness| at port |%pin| "
+    //% blockId=display_set_white_led_brightness block="white led |%port| set brightness |%brightness|"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=129
     //% brightness.min=0 brightness.max=100    
     //% group="White LED"
-    export function setWhiteLedBrightness(pin: AnalogPin, brightness: number) {
+    export function setWhiteLedBrightness(port: Controller.AnalogOutPutPort, brightness: number) {
+        let pin: AnalogPin = Controller.toAnalogOutputPin(port);
         pins.analogWritePin(pin, pins.map(brightness, 0, 100, 0, 1023));
     }
 
@@ -57,15 +62,17 @@ namespace Display {
     let neoStrip:neopixel.Strip  = null;
 
     /**
-     * set rgb led color to a predefined color. 
-     * @param pin microbit digital pin
+     * set rgb led color to a standard color. 
+     * @param port microbit digital port
      * @param color color
     */
-    //% blockId="display_set_rgb_led_color" block="set rgb led color |%color| at port |%pin| "
+    //% blockId="display_set_rgb_led_color" block="rgb led |%port| set color |%color|"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=129
     //% group="RGB LED"
-    export function setRGBLedColor(pin: DigitalPin, color: Controller.Colors): void {
+    export function setRGBLedColor(port: Controller.DigitalPort, color: Controller.Colors): void {
         if (neoStrip == null) {
+            let pin: DigitalPin = Controller.toDigitalPin(port);
             neoStrip = neopixel.create(pin, 1, NeoPixelMode.RGB);
             neoStrip.setBrightness(75);
         }
@@ -75,15 +82,17 @@ namespace Display {
 
     /**
      * set rgb led brightness. 
-     * @param pin microbit digital pin
+     * @param port microbit digital port
      * @param color color
     */
-    //% blockId="display_set_rgb_led_brightness" block="set rgb led brightness |%level| at port |%pin| "
+    //% blockId="display_set_rgb_led_brightness" block="rgb led |%port| set brightness |%level|"
+    //% port.fieldEditor="gridpicker" port.fieldOptions.columns=4
     //% weight=129
     //% level.min=0 level.max=100    
     //% group="RGB LED"
-    export function setRGBLedsBrightness(pin: DigitalPin, level: number): void {
+    export function setRGBLedsBrightness(port: Controller.DigitalPort, level: number): void {
         if (neoStrip == null) {
+            let pin: DigitalPin = Controller.toDigitalPin(port);
             neoStrip = neopixel.create(pin, 1, NeoPixelMode.RGB);
             neoStrip.setBrightness(75);
         }
@@ -94,9 +103,9 @@ namespace Display {
 
     ////////////////////////////////////////////Segment Display////////////////////////////////////////////////////////////
     /**
-     * turn segment display on
+     * turn 4-digit segment display on
      */
-    //% blockId=display_turn_segment_display_on block="turn segment display on"
+    //% blockId=display_turn_segment_display_on block="segment display on"
     //% weight=128
     //% group="Segment Display"
     export function digitalTubeOn() {
@@ -106,7 +115,7 @@ namespace Display {
     /**
      * turn segment display off
      */
-    //% blockId=display_turn_segment_display_off block="turn segment display off"
+    //% blockId=display_turn_segment_display_off block="segment display off"
     //% weight=127
     //% group="Segment Display"
     export function digitalTubeOff() {
@@ -116,7 +125,7 @@ namespace Display {
     /**
      * clear segment display
      */
-    //% blockId=display_clear_segment_display block="clear segment display display"
+    //% blockId=display_clear_segment_display block="segment display clear"
     //% weight=126
     //% group="Segment Display"
     export function digitalTubeClear() {
@@ -126,7 +135,7 @@ namespace Display {
     /**
      * set segment display intensity
      */
-    //% blockId=display_set_segment_display_intensity block="set segment display intensity |%value|"
+    //% blockId=display_set_segment_display_intensity block="segment display set intensity |%value|"
     //% weight=125
     //% value.min=0 value.max=8
     //% group="Segment Display"
@@ -139,7 +148,7 @@ namespace Display {
      * @param value number to be shown on display
      * @param pos position of number
      */
-    //% blockId=display_segment_display_show_digit block="show digit |%value| at bit |%pos|"
+    //% blockId=display_segment_display_show_digit block="segment display show digit |%value| at position |%pos|"
     //% weight=124
     //% group="Segment Display"
     export function digitalTubeShowDigit(value: number, pos : number) {
@@ -150,7 +159,7 @@ namespace Display {
      * show number on segment display
      * @param value number to be shown on display
      */
-    //% blockId=display_segment_display_show_number block="show number |%value|"
+    //% blockId=display_segment_display_show_number block="segment display show number |%value|"
     //% weight=123
     //% group="Segment Display"
     export function digitalTubeShowNumber(value: number) {
@@ -162,7 +171,7 @@ namespace Display {
      * @param pos bit to show
      * @param show show or not
      */
-    //% blockId=display_segment_display_set_dp_state block="show dot at |%pos| |%show|"
+    //% blockId=display_segment_display_set_dp_state block="segment display show dot at |%pos| |%show|"
     //% weight=122
     //% group="Segment Display"
     export function digitalTubeSetPoint(pos: number, show: boolean) {
@@ -323,10 +332,14 @@ namespace Display {
         oledcmd(0xAF);  // Set display On
         oledClear();
     }
-
+    /**
+     * show string on the OLED display
+     * @param line line number showing on
+     * @param text string to show on
+     */
     //% line.min=1 line.max=8 line.defl=1
     //% text.defl="Hello,Future"
-    //% block="OLED show line %line|text %text"
+    //% block="OLED show text %text| on line %line"
     //% group="OLED Display"
     export function oledShowUserText(line: number, text: string) {
         if (firstoledinit) {
@@ -347,9 +360,14 @@ namespace Display {
             putChar(" ");
         }
     }
-    //% line.min=1 line.max=8 line.defl=2 
+    /**
+     * show a number on the OLED display
+     * @param line line number showing on
+     * @param n number to show on
+     */
+    //% line.min=1 line.max=8 line.defl=2
     //% n.defl=12345
-    //% block="OLED show line %line|number %n"
+    //% block="OLED show number %n|on line %line|"
     //% group="OLED Display"
     export function oledShowUserNumber(line: number, n: number) {
         if (firstoledinit) {
@@ -358,7 +376,10 @@ namespace Display {
         }
         oledShowUserText(line, "" + n)
     }
-    //% block="clear display"
+    /**
+     * clear contents on OLED display
+     */
+    //% block="OLED clear"
     //% group="OLED Display" 
     export function oledClear() {
         //oledcmd(DISPLAY_OFF);   //display off
