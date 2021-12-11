@@ -189,8 +189,8 @@ namespace Controller {
         return src;
     }
 
-    export const serialTxPin: SerialPin = SerialPin.P15;
-    export const serialRxPin: SerialPin = SerialPin.P14;
+    export const serialTxPin: SerialPin = SerialPin.P14;
+    export const serialRxPin: SerialPin = SerialPin.P15;
 
     export function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2);
